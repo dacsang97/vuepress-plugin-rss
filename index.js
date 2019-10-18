@@ -27,7 +27,7 @@ module.exports = (pluginOptions, ctx) => {
         .map(page => ({...page, date: new Date(page.frontmatter.date || '')}))
         .sort((a, b) => b.date - a.date)
         .map(page => ({
-          title: page.frontmatter.title,
+          title: page.title,
           description: page.excerpt,
           url: `${pluginOptions.site_url}${page.path}`,
           date: page.date,
