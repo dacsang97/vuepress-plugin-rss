@@ -9,7 +9,10 @@ module.exports = (pluginOptions, ctx) => {
     generated () {
       const fs = require('fs-extra')
       const { pages, sourceDir } = ctx
-      const { filter = () => true, count = 20 } = pluginOptions
+      const {
+        filter = (frontmatter) => { String(frontmatter.type).toLowerCase() === 'post' },
+        count = 20
+      } = pluginOptions
       const siteData = require(path.resolve(sourceDir, '.vuepress/config.js'))
 
       const feed = new RSS({
@@ -22,7 +25,6 @@ module.exports = (pluginOptions, ctx) => {
       })
 
       pages
-        .filter(page => String(page.frontmatter.type).toLowerCase() === 'post')
         .filter(page => filter(page.frontmatter))
         .map(page => ({...page, date: new Date(page.frontmatter.date || '')}))
         .sort((a, b) => b.date - a.date)
